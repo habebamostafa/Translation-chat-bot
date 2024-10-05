@@ -27,7 +27,7 @@ def translate_text_to_arabic(text):
     return translated.text
 
 # Streamlit app layout
-st.title("Multilingual Chatbot")
+st.title("Chatbot for Translation or dialoge")
 st.write("You can enter your message below:")
 
 user_input = st.text_input("Your message:")
