@@ -1,6 +1,5 @@
 streamlit
 opencv-python
-Pillow
 PyPDF2
 altair
 setuptools
