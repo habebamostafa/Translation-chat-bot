@@ -3,8 +3,8 @@ import cv2
 import numpy as np
 import tensorflow as tf
 from PIL import Image
-
-import tensorflow as tf
+import PyPDF2
+import fitz
 from tensorflow.keras import layers, models
 
 # Create a dummy chatbot model
@@ -21,10 +21,6 @@ def create_dummy_chatbot_model():
 dummy_chatbot_model = create_dummy_chatbot_model()
 dummy_chatbot_model.save('chatbot_model.h5')
 
-
-import tensorflow as tf
-from tensorflow.keras import layers, models
-
 # Create a dummy translation model
 def create_dummy_translation_model():
     model = models.Sequential()
@@ -39,7 +35,13 @@ def create_dummy_translation_model():
 dummy_translation_model = create_dummy_translation_model()
 dummy_translation_model.save('translation_model.h5')
 
-
+def read_pdf(file):
+    text = ""
+    # Use BytesIO to read the uploaded file
+    with fitz.open(stream=file.read(), filetype='pdf') as pdf_document:
+        for page in pdf_document:
+            text += page.get_text()
+    return text
 
 # Load your models
 def load_translation_model():
@@ -52,6 +54,8 @@ def load_chat_model():
 
 def load_image_to_text_model():
     return tf.keras.models.load_model('cnn_model.h5')
+
+
 
 def image_to_text(image, model):
     gray_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2GRAY)
@@ -97,7 +101,6 @@ def convert_2_gray(image):
         raise ValueError("Unexpected image format.")
 
     return gray_image
-
 
 def binarization(image):
     _, thresh = cv2.threshold(image, 0, 255, cv2.THRESH_OTSU | cv2.THRESH_BINARY_INV)
@@ -159,14 +162,14 @@ image_to_text_model = load_image_to_text_model()
 # Streamlit interface
 st.title("Multimodal Translation and Chatbot App")
 
-option = st.selectbox("Choose Input Type", ["Text Translation", "Chat", "Image to Text"])
+option = st.selectbox("Choose Input Type", ["Text Translation", "Chat", "Image to Text", "PDF Translation"])
 
 if option == "Text Translation":
     input_text = st.text_input("Enter text for translation")
     if st.button("Translate"):
         # translated = translate_text(input_text, translation_model)
         st.write('translated')
-        
+
 if option == "Chat":
     # Initialize chat history if not already done
     if 'chat_history' not in st.session_state:
@@ -227,3 +230,19 @@ elif option == "Image to Text":
             if st.button("Translate Extracted Text"):
                 # translated = translate_text(extracted_text, translation_model)
                 st.write('translated')
+
+elif option == "PDF Translation":
+    uploaded_pdf = st.file_uploader("Upload PDF Document", type="pdf")
+    
+    if uploaded_pdf is not None:
+        # Read PDF content
+        pdf_text = read_pdf(uploaded_pdf)
+        st.write("Original Text:")
+        st.write(pdf_text)
+
+        # Select target language
+        target_language = st.selectbox("Select target language", ["en", "ar", "fr", "de", "es"])
+
+        if st.button("Translate PDF Text"):
+            # Placeholder for translation functionality
+            st.write('Translated text will appear here.')
