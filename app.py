@@ -166,13 +166,28 @@ if option == "Text Translation":
     if st.button("Translate"):
         # translated = translate_text(input_text, translation_model)
         st.write('translated')
-
-elif option == "Chat":
-    input_text = st.text_input("Talk to the chatbot")
-    if st.button("Chat"):
-        # response = chat_response(input_text, chat_model)
-        st.write('response')
         
+if option == "Chat":
+    # Initialize chat history if not already done
+    if 'chat_history' not in st.session_state:
+        st.session_state.chat_history = []
+
+    input_text = st.text_input("Talk to the chatbot")
+
+    if st.button("Chat"):
+        # Simulate a chat response (replace this with your actual chat model prediction)
+        response = "This is a simulated response."  # Placeholder for chat model response
+
+        # Store user input and response in chat history
+        st.session_state.chat_history.append(("User", input_text))
+        st.session_state.chat_history.append(("Chatbot", response))
+
+    # Display chat history
+    st.write("### Chat History")
+    chat_box = st.empty()
+    for speaker, message in st.session_state.chat_history:
+        chat_box.write(f"**{speaker}:** {message}")
+  
 elif option == "Image to Text":
     st.write("Select an option to extract text from an image:")
 
