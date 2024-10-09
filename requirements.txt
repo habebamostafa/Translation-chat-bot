@@ -5,3 +5,4 @@ tensorflow
 Pillow
 PyPDF2
 fitz  # PyMuPDF is usually imported with the module name fitz
+altair==4.2.0
