@@ -174,21 +174,21 @@ elif option == "Chat":
         st.write('response')
 
 elif option == "Image to Text":
-    st.write("Select a predefined image to extract text from:")
+    st.write("Upload an image to extract text from:")
 
-    # Let the user choose from predefined images
-    selected_image = st.selectbox("Choose an image", list(predefined_images.keys()))
-    image_path = predefined_images[selected_image]
+    # Let the user upload an image
+    uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
 
-    # Load and display the selected image
-    image = Image.open(image_path)
-    st.image(image, caption="Selected Image", use_column_width=True)
+    if uploaded_file is not None:
+        # Open and display the uploaded image
+        image = Image.open(uploaded_file)
+        st.image(image, caption="Uploaded Image", use_column_width=True)
 
-    if st.button("Extract Text from Image"):
-        extracted_text = extract(image)
-        st.write(extracted_text)
+        if st.button("Extract Text from Image"):
+            extracted_text = extract(image)
+            st.write(extracted_text)
 
-        # Optionally, allow translation of the extracted text
-        if st.button("Translate Extracted Text"):
-            # translated = translate_text(extracted_text, translation_model)
-            st.write('translated')
+            # Optionally, allow translation of the extracted text
+            if st.button("Translate Extracted Text"):
+                # translated = translate_text(extracted_text, translation_model)
+                st.write('translated')
