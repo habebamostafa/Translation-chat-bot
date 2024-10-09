@@ -172,19 +172,39 @@ elif option == "Chat":
     if st.button("Chat"):
         # response = chat_response(input_text, chat_model)
         st.write('response')
-
+        
 elif option == "Image to Text":
-    st.write("Upload an image to extract text from:")
+    st.write("Select an option to extract text from an image:")
 
-    # Let the user upload an image
-    uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
+    upload_option = st.radio("Choose Input Method", ("Upload Image", "Try Sample Image"))
 
-    if uploaded_file is not None:
-        # Open and display the uploaded image
-        image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded Image", use_column_width=True)
+    if upload_option == "Upload Image":
+        uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+        if uploaded_file is not None:
+            image = Image.open(uploaded_file)
+            st.image(image, caption="Uploaded Image", use_column_width=True)
 
-        if st.button("Extract Text from Image"):
+            if st.button("Extract Text from Uploaded Image"):
+                extracted_text = extract(image)
+                st.write(extracted_text)
+
+                # Optionally, allow translation of the extracted text
+                if st.button("Translate Extracted Text"):
+                    # translated = translate_text(extracted_text, translation_model)
+                    st.write('translated')
+
+    elif upload_option == "Try Sample Image":
+        st.write("Select a predefined image to extract text from:")
+
+        # Let the user choose from predefined images
+        selected_image = st.selectbox("Choose an image", list(predefined_images.keys()))
+        image_path = predefined_images[selected_image]
+
+        # Load and display the selected image
+        image = Image.open(image_path)
+        st.image(image, caption="Selected Image", use_column_width=True)
+
+        if st.button("Extract Text from Sample Image"):
             extracted_text = extract(image)
             st.write(extracted_text)
 
