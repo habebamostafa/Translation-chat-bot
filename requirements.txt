@@ -1,7 +1,7 @@
 streamlit
 opencv-python
-Pillow==9.4.0
-PyPDF2==1.26.0
-pymupdf==1.22.0  
-altair==4.2.0
+Pillow
+PyPDF2
+pymupdf 
+altair
 setuptools
