@@ -240,9 +240,6 @@ elif option == "PDF Translation":
         st.write("Original Text:")
         st.write(pdf_text)
 
-        # Select target language
-        target_language = st.selectbox("Select target language", ["en", "ar", "fr", "de", "es"])
-
         if st.button("Translate PDF Text"):
             # Placeholder for translation functionality
             st.write('Translated text will appear here.')
