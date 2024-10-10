@@ -4,4 +4,4 @@ PyPDF2
 altair
 setuptools
 tensorflow
-fitz
+PyMuPDF
