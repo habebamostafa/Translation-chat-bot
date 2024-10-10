@@ -3,3 +3,4 @@ opencv-python-headless
 PyPDF2
 altair
 setuptools
+tensorflow
